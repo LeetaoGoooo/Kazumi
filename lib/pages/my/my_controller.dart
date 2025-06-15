@@ -2,12 +2,15 @@ import 'package:kazumi/bean/dialog/dialog_helper.dart';
 import 'package:kazumi/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:kazumi/request/api.dart';
+import 'package:upgrader/upgrader.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:logger/logger.dart';
 import 'package:kazumi/utils/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:kazumi/utils/storage.dart';
 import 'package:hive/hive.dart';
+
+import '../../main.dart';
 
 part 'my_controller.g.dart';
 
@@ -77,24 +80,7 @@ abstract class _MyController with Store {
       } else {
         KazumiDialog.show(
           builder: (context) {
-            return AlertDialog(
-              title: Text('发现新版本 $value'),
-              actions: [
-                TextButton(
-                  onPressed: () => KazumiDialog.dismiss(),
-                  child: Text(
-                    '稍后',
-                    style:
-                        TextStyle(color: Theme.of(context).colorScheme.outline),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () =>
-                      launchUrl(Uri.parse("${Api.sourceUrl}/releases/latest")),
-                  child: const Text('Github'),
-                ),
-              ],
-            );
+            return  Center(child: UpgradeCard(upgrader: upgrader));
           },
         );
       }
